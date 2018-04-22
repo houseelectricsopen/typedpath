@@ -1,0 +1,81 @@
+Add in sample values !
+
+github as typedpath (templating not that interesting)
+   json <pojopath>
+      jsonschema->pojopath
+      bean->path
+      basic->pojopath
+        plugin
+          custom mappers
+          custom class selection
+          custom templates
+
+make paths first class objects
+make mappings first class object
+    add checks that tests have compared all values
+
+is there a mvn phase before generate-source ?
+
+done implement skip, done
+
+done support list indices !
+
+IGNORE templating
+   re-organise into
+       sample
+          sample domain
+          sample domain test
+          templater
+
+cloud deployments
+
+   sample
+      angular client / async crud / RDS
+
+   1 minimum transport (java + typescript)
+       estimates network costs
+       hooks for network costs
+
+   full deployment
+       cloud HA
+       hooks for network costs
+       hooks to monitoring
+       calibrated for 
+           ramp up / down
+           highest speed
+           cost
+
+DONE into(pathin, pathout, (pi, po)->{ 
+                  into(pi.field1(), po.fielda())
+                  into(pi.field2), po.fieldb())
+                  into(pi.field3(), po.fieldc())
+                  into(pi.field4(), po.fieldd())
+                  into(pi.field5(), po.fielde())
+                  into(pi.address, po.person.address,  (a1, a2)-> {
+                                   into(a1.address1, 2.address2) 
+                                   }  
+                        ) 
+                  }
+    )    
+   
+
+
+
+
+
+
+DONE address this:
+assertThat(verifyAppendAndGetArgumentFrom(this.eventStream), streamContaining(
+               jsonEnvelope(
+                       withMetadataEnvelopedFrom(command)
+                               .withName(HEARING_INITIATED_EVENT_EX),
+                       payloadIsJson(allOf(
+                               withJsonPath("$.caseId", equalTo(document.getCaseId().toString())),
+                               withJsonPath("$.urn", is(document.getUrn())),
+                               withJsonPath("$.hearing.id", is(document.getHearing().getId().toString())),
+                               withJsonPath("$.hearing.type", is(document.getHearing().getType())),
+
+                              withJsonPath("$.hearing.defendants.[0].id", is(document.getHearing().getDefendants().get(0).getId().toString())),
+                              withJsonPath("$.hearing.defendants.[0].personId", is(document.getHearing().getDefendants().get(0).getPersonId().toString())),
+                              withJsonPath("$.hearing.defendants.[0].firstName", is(document.getHearing().getDefendants().get(0).getFirstName())),
+                              withJsonPath("$.hearing.defendants.[0].lastName", is(document.getHearing().getDefendants().get(0).getLastName())),

@@ -1,0 +1,157 @@
+package ##PackageName##;
+
+import com.typedpath.beanmapping.TypedPath;
+import com.typedpath.beanmapping.TypedListPath;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.List;
+import java.util.Arrays;
+
+//###BuildWatermark###
+public class ##SimpleName##{
+##Fields##^
+    private ##TypeAsString## ##Name##;^
+    ^
+
+    public ##SimpleName##(##Fields##^##TypeAsString## ##Name##^, ^) {
+       ##Fields##^this.##Name##=##Name##;^
+       ^
+    }
+##Fields##^
+    public ##TypeAsString## get##PropertyName##() { return this.##Name##;}^^
+
+    public static class Builder {
+    ##Fields##^
+        private    ##TypeAsString## ##Name##;^^
+    ##Fields##^
+    public Builder with##PropertyName##(final ##TypeAsString## ##Name##) {
+                              this.##Name## = ##Name##;
+                              return this;
+                   }^^
+    public ##SimpleName## build() {
+      return new ##SimpleName##(##Fields##^##Name##^, ^);
+    }
+  }
+
+
+public static class ##SimpleName##Path<S> extends TypedPath<S, ##SimpleName##> {
+
+    public ##SimpleName##Path(TypedPath parent, String shortName) {
+        this(parent, shortName, null);
+    }
+
+    public ##SimpleName##Path(TypedPath parent, String shortName, Function<Object, ##SimpleName##> jget) {
+        super(parent, shortName, jget, ##SimpleName##.class);
+        this.complex=true;
+    }
+
+##NonComplexFields##^
+    public TypedPath<S, ##TypeAsString##> ##Name##() {
+            Function<Object, ##TypeAsString##> jget = p->((##ParentTypeAsString##)p).get##PropertyName##();
+            TypedPath<S, ##TypeAsString##> result = new TypedPath<S, ##TypeAsString##>(this, "##Name##", jget, ##TypeAsString##.class);
+            this.touch(result);
+            return result;
+        }^^
+
+##ComplexNonListFields##^
+    public ##TypeAsString##.##TypeAsString##Path<S> ##Name##() {
+            Function<Object, ##TypeAsString##> jget = (p)->((##ParentTypeAsString##)p).get##PropertyName##();
+            ##TypeAsString##.##TypeAsString##Path<S> result = new ##TypeAsString##.##TypeAsString##Path<S>(this, "##Name##", jget);
+            this.touch(result);
+            return result;
+        }^^
+
+##ComplexListFields##^
+public static class ##PropertyName##ListPath<S> extends TypedListPath<S,  ##TypeAsString##,##ContainedTypeAsString##.##ContainedTypeAsString##Path> {
+
+    public ##PropertyName##ListPath(TypedPath parent, String shortName, Function<Object, ##TypeAsString##> jget) {
+        super(parent, shortName, jget);
+        this.complex=true;
+    }
+
+   public ##PropertyName##ListPath<S> alias(String alias) {
+        this.alias=alias;
+        return this;
+   }
+
+   public ##PropertyName##ListPath<S> skip() {
+        this.skipOnTraverse=true;
+        return this;
+   }
+
+    public ##ContainedTypeAsString##.##ContainedTypeAsString##Path<S> get(final int index) {
+        Function<Object,##ContainedTypeAsString##> jget = p->((List<##ContainedTypeAsString##>)p).get(index);
+        // string index is json compliant !
+        ##ContainedTypeAsString##.##ContainedTypeAsString##Path path = new ##ContainedTypeAsString##.##ContainedTypeAsString##Path<S>(this, "" + index, jget);
+        this.touched.add(path);
+        return path;
+    }
+    public ##ContainedTypeAsString##.##ContainedTypeAsString##Path<S> all() {
+        Function<Object,##TypeAsString##> jget = p->{
+            throw new RuntimeException("##PropertyName##Path.all get is invalid - possibly called get on a multi path try getNodesAssumeSinglePath");
+        };
+        this.filter = (d) -> true;
+        ##ContainedTypeAsString##.##ContainedTypeAsString##Path path = new ##ContainedTypeAsString##.##ContainedTypeAsString##Path(this, "", jget);
+        this.touched.add(path);
+        return path;
+    }
+
+    public ##ContainedTypeAsString##.##ContainedTypeAsString##Path<S> filter(Predicate<##ContainedTypeAsString##> filter) {
+        Function<##ContainedTypeAsString##, Boolean> jget = p->{
+            throw new RuntimeException("DefendantPath.filter get is invalid - possibly called get on a multi path try getNodesAssumeSinglePath ");
+        };
+        this.filter = (d) -> filter.test((##ContainedTypeAsString##)d);
+        ##ContainedTypeAsString##.##ContainedTypeAsString##Path path = new ##ContainedTypeAsString##.##ContainedTypeAsString##Path(this, "", jget);
+        this.touched.add(path);
+        return path;
+    }
+}
+    public ##PropertyName##ListPath<S> ##Name##() {
+            Function<Object, ##TypeAsString##> jget = (p)->((##ParentTypeAsString##)p).get##PropertyName##();
+            ##PropertyName##ListPath<S> result = new ##PropertyName##ListPath<>(this, "##Name##", jget);
+            this.touch(result);
+            return result;
+        }
+^^
+
+   public ##SimpleName##Path<S> alias(String alias) {
+        this.alias=alias;
+        return this;
+   }
+
+   public ##SimpleName##Path<S> skip() {
+        this.skipOnTraverse=true;
+        return this;
+   }
+
+   public ##SimpleName##Path<S> insertUnion(String name, ##SimpleName##Path<##SimpleName##>... paths) {
+        addUnionPaths(name, Arrays.asList(paths));
+        return this;
+   }
+
+   public <G> ##SimpleName##Path<S> insertGroupBy(String name, TypedPath<S, G> groupKeyGetter,
+                                     Function<G, TypedPath<S, ?>> groupPathGetter) {
+        addGroupBy(name, groupKeyGetter, groupPathGetter);
+        return this;
+    }
+
+    public ##SimpleName##Path<S> select(
+            Consumer<##SimpleName##Path<##SimpleName##>>... ls
+    ) {
+        ##SimpleName##Path<##SimpleName##> target = new ##SimpleName##Path<##SimpleName##>(null, ".");
+        for (Consumer<##SimpleName##Path<##SimpleName##>> l : ls ) {
+            l.accept(target);
+        }
+        target.touched.forEach(t->this.touch(t));
+        return this;
+    }
+
+}
+
+public static ##SimpleName##Path<##SimpleName##> root() {
+         return new ##SimpleName##Path<##SimpleName##>(null, "", null);
+    }
+
+
+}

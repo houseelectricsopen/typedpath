@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.typedpath</groupId>
+	<artifactId>typedpath-testplugin</artifactId>
+	<name>typedpath-testplugin</name>
+	<version>1.0.0</version>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.typedpath</groupId>
+			<artifactId>typedpath-testdomain</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.typedpath</groupId>
+			<artifactId>typedpath-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+			<groupId>com.typedpath</groupId>
+			<artifactId>typedpath-srcbuilder-maven-plugin</artifactId>
+			<version>${project.version}</version>
+
+			<executions>
+
+			<execution>
+				<phase>generate-sources</phase>
+				<id>javabeantest</id>
+				<goals>
+					<goal>pathsforimmutablebeans</goal>
+				</goals>
+				<configuration>
+					<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
+					<types>
+						<param>com.typedpath.testdomain.immutablebean.Ahearing</param>
+						<param>com.typedpath.testdomain.immutablebean.Defendant</param>
+						<param>com.typedpath.testdomain.immutablebean.Attendee</param>
+						<param>com.typedpath.testdomain.immutablebean.Judge</param>
+						<param>com.typedpath.testdomain.immutablebean.Advocate</param>
+						<param>com.typedpath.testdomain.immutablebean.DefenceAdvocate</param>
+						<param>com.typedpath.testdomain.immutablebean.ProsecutionAdvocate</param>
+						<param>com.typedpath.testdomain.immutablebean.Offence</param>
+						<param>com.typedpath.testdomain.immutablebean.Address</param>
+						<param>com.typedpath.testdomain.immutablebean.HearingSnapshotKey</param>
+					</types>
+				</configuration>
+			</execution>
+
+				<execution>
+					<phase>generate-sources</phase>
+					<id>jsontest</id>
+					<goals>
+						<goal>pathsforjsonschema</goal>
+					</goals>
+					<configuration>
+						<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
+						<destinationPackage>com.typedpath.test.genfromjson.sendingsheetcompleted</destinationPackage>
+						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/sending-sheet-completed.json</jsonSchemaFile>
+						<rootClassShortName>SendingSheetCompleted</rootClassShortName>
+					</configuration>
+				</execution>
+			</executions>
+
+			<dependencies>
+				<!-- if reflection is used a plugin dependancy  must allow access to the source classes-->
+				<dependency>
+					<groupId>com.typedpath</groupId>
+					<artifactId>typedpath-testdomain</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+
+			</dependencies>
+
+		</plugin>
+		</plugins>
+	</build>
+	
+  
+</project>

@@ -1,0 +1,2 @@
+generate example
+add test to compare sample with results

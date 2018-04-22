@@ -1,0 +1,6 @@
+package ##PackageName##;
+
+//###BuildWatermark###
+public enum ##SimpleName## {
+    ##Values##^##Value##^, ^
+}

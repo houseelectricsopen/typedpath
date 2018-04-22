@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/core/typedpath-core.iml" filepath="$PROJECT_DIR$/core/typedpath-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/typedpath-parent.iml" filepath="$PROJECT_DIR$/typedpath-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/srcbuilder-maven-plugin/typedpath-srcbuilder-maven-plugin.iml" filepath="$PROJECT_DIR$/srcbuilder-maven-plugin/typedpath-srcbuilder-maven-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testdomain/typedpath-testdomain.iml" filepath="$PROJECT_DIR$/testdomain/typedpath-testdomain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testplugin/typedpath-testplugin.iml" filepath="$PROJECT_DIR$/testplugin/typedpath-testplugin.iml" />
+    </modules>
+  </component>
+</project>
