@@ -1,5 +1,6 @@
 package com.typedpath.beanmapping.fromjsonschema;
 
+import com.typedpath.beanmapping.JsonUtil;
 import com.typedpath.beanmapping.SourcePrinter;
 import com.typedpath.beanmapping.condensedtemplates.ClassSourceTemplate;
 import com.typedpath.beanmapping.condensedtemplates.FieldSpec;

@@ -1,6 +1,5 @@
 package com.typedpath.beanmapping;
 
-import com.typedpath.beanmapping.fromjsonschema.JsonUtil;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import java.util.ArrayList;
@@ -103,7 +102,7 @@ public class JsonReader {
                 }
                 if (!isComplex) {
                     //TODO this will fail for non strings !
-                    stringBuilder.append(String.format("\"%s\"", source));
+                    stringBuilder.append(JsonSimpleTypeMapping.writeJsonValue(source));
                 }
             } else {
                 stackDepth[0]--;
@@ -125,6 +124,9 @@ public class JsonReader {
 
         return stringBuilder.toString();
     }
+
+
+
 
 
 

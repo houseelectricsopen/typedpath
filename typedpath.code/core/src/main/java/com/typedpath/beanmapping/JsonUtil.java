@@ -1,4 +1,4 @@
-package com.typedpath.beanmapping.fromjsonschema;
+package com.typedpath.beanmapping;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
@@ -10,19 +10,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class JsonUtil {
-
-    static DateTimeFormatter localDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    //can be used as a default but should only reference types in java runtime
-    public static <T> T ScriptObjectMirrorToNative(Object source, Class<T> destinationType) {
-        Object result = source;
-        if (source!=null && destinationType.equals(UUID.class))
-        {
-            result = UUID.fromString(source.toString());
-        } else if (source != null && destinationType.equals(LocalDate.class)) {
-            result =  LocalDate.parse( (String)source, localDateFormat);
-        }
-        return (T) result;
-    }
 
     public static ScriptObjectMirror stringToJson(String strJson) throws Exception {
         String json = "var result = " + strJson+ "; result;";

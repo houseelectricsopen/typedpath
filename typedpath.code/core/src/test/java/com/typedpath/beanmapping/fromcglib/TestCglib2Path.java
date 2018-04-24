@@ -19,8 +19,7 @@ import static com.typedpath.beanmapping.TestUtil.*;
 
 /**
  * TODO
- *    add more field types into tests
- *    implement skip
+ *    test for skip
  */
 public class TestCglib2Path {
 
@@ -80,10 +79,6 @@ public class TestCglib2Path {
 
     }
 
-    /**
-     * TODO create a case for when first property doesnt exist
-     */
-
 
     /**
      * this test:
@@ -91,7 +86,7 @@ public class TestCglib2Path {
      * this path includes checks at various points
      * (2) create test data
      * (3) select the path from the test data into json
-     * (4) evaluate the checks based on the json
+     * (4) evaluate the checks on the json
      * Note that List.get(n) maps to a single json object
      * so List.gets in a path overwrite each other in json
      * in this example defendants.get(10) is aliased so it doesnt get overwritten by defendants.get(0) in json
@@ -150,6 +145,17 @@ public class TestCglib2Path {
 
     }
 
+    /**
+     * testing mapping
+     * (1) create test data
+     * (2) map AHearing into a hearing summary
+     *          link at defendant level
+     *             map Defendant.ForName to DefendantSummary.FirstNAme
+     *             map Defendant.LastName to DefendantSummary.LastName
+     *             map Defendant,Address.Address1 to DefendantSummary.Address1
+     *  (3) create a path to check defendant summaries
+     *  (4) execute the checks in this path
+     */
     @Test
     public void testMapping() {
 
@@ -202,5 +208,61 @@ public class TestCglib2Path {
 
     }
 
+    /**
+     * test each simpe property type
+     *  (0) create sample data
+     * (1) create a path including checks against sample data
+     * (2) serialize to json based on path
+     * (3) execute the checks against the json
+      */
+  @Test
+  public void testSimplePropertyTypes() throws Exception {
+        //create test data
+        MultiPropertyTypes testData =  new MultiPropertyTypes();
+        testData.setBooleanObject(new Boolean(false));
+        testData.setPrimitiveBoolean(true);
+        testData.setByteObject(new Byte((byte)1));
+        testData.setPrimitiveByte((byte)2);
+        testData.setShortObject((short)3);
+        testData.setPrimitiveShort((short)4);
+        testData.setIntegerObject(new Integer(5));
+        testData.setPrimitiveInteger(6);
+        testData.setLongObject(new Long(7));
+        testData.setPrimitiveLong(8);
+        testData.setFloatObject(new Float(9));
+        testData.setPrimitiveFloat(10);
+        testData.setDoubleObject(new Double(11));
+        testData.setCharacterObject(new Character('a'));
+        testData.setPrimitiveCharacter('b');
+
+       //create a path including checks
+        TypedPath<MultiPropertyTypes, ?> path =
+              Cglib2Path.root(MultiPropertyTypes.class,
+                      m->{
+                         select(m,
+                                 check(m1->m1.getLongObject(), is(testData.getLongObject())),
+                                 check(m1->m1.getPrimitiveLong(), is(testData.getPrimitiveLong())),
+                                 check(m1->m1.getIntegerObject(), is(testData.getIntegerObject())),
+                                 check(m1->m1.getPrimitiveInteger(), is(testData.getPrimitiveInteger())),
+                                 check(m1->m1.getShortObject(), is(testData.getShortObject())),
+                                 check(m1->m1.getPrimitiveShort(), is(testData.getPrimitiveShort())),
+                                 check(m1->m1.getByteObject(), is(testData.getByteObject())),
+                                 check(m1->m1.getPrimitiveByte(), is(testData.getPrimitiveByte())),
+                                 check(m1->m1.isPrimitiveBoolean(), is(testData.isPrimitiveBoolean())),
+                                 check(m1->m1.getBooleanObject(), is(testData.getBooleanObject())
+                                 )
+              );
+
+  });
+
+   //serialize to json based on path
+   String strJson =    JsonReader.selectAsJson(testData, path);
+   System.out.println(strJson);
+
+   //evaluate the checks on the json
+   List<CheckError> errors = TestUtil.checkJsonPath(strJson, path);
+   errors.forEach(e->System.out.println(e));
+   Assert.assertEquals(0, errors.size());
+ }
 
 }

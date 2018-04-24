@@ -1,6 +1,5 @@
 package com.typedpath.beanmapping;
 
-import com.typedpath.beanmapping.fromjsonschema.JsonUtil;
 import com.typedpath.test.genfromjson.sendingsheetcompleted.Hearing;
 import com.typedpath.test.genfromjson.sendingsheetcompleted.SendingSheetCompleted;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;

@@ -9,9 +9,8 @@ import net.sf.cglib.proxy.MethodProxy;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -48,8 +47,18 @@ public class Handler  implements MethodInterceptor {
         return "get".equals(method.getName()) && method.getDeclaringClass().isAssignableFrom(List.class) ;
     }
 
+    private String methodName2PropertyName(String methodName) {
+        if (methodName.startsWith("get")) {
+            return methodName.substring(3);
+        } else if (methodName.startsWith("is")) {
+            return methodName.substring(2);
+        } else {
+            throw new RuntimeException(String.format("invalid Method %s ", methodName));
+        }
+    }
+
     public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        if (   !method.getName().startsWith("get")) {
+        if (   !method.getName().startsWith("get") && !method.getName().startsWith("is")) {
             return methodProxy.invokeSuper(o, args);
         }
 
@@ -65,7 +74,7 @@ public class Handler  implements MethodInterceptor {
             child =  createListGetter((Integer)args[0], this.itemType);
             returnType = this.itemType;
         } else {
-            String shortName = method.getName().substring(3);
+            String shortName = methodName2PropertyName(method.getName());
             shortName = shortName.substring(0, 1).toLowerCase() + shortName.substring(1);
             Object[] noArgs = {};
             Function getter = p -> {
@@ -104,11 +113,12 @@ public class Handler  implements MethodInterceptor {
 
     // TODO review these mappings
     private static ThreadLocal<TypedPath> latestTypedPath = new ThreadLocal<>();
-    private static ThreadLocal<Map<Object, Handler>> object2Handler = new ThreadLocal<>();
+    // this is for mapping objects based on == not .equals hence type is IdentityHashMap
+    private static ThreadLocal<IdentityHashMap<Object, Handler>> object2Handler = new ThreadLocal<>();
 
-    private static Map<Object, Handler>getObject2Handler() {
+    private static IdentityHashMap<Object, Handler>getObject2Handler() {
         if (object2Handler.get()==null) {
-            object2Handler.set(new HashMap<>());
+            object2Handler.set(new IdentityHashMap<>());
         }
         return object2Handler.get();
     }

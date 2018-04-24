@@ -1,6 +1,5 @@
 package com.typedpath.beanmapping;
 
-import com.typedpath.beanmapping.fromjsonschema.JsonUtil;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import java.util.ArrayList;
@@ -105,7 +104,7 @@ public class TestUtil {
         ScriptObjectMirror json =  JsonUtil.stringToJson(strJson);
         TypedPath.PathDown down = TestUtil::scriptObjectMirrorDown;
         TypedPath.PathAsList asList = TestUtil::scriptObjectMirrorAsList;
-        BiFunction<Object, Class, Object> translateToNativeObject = JsonUtil::ScriptObjectMirrorToNative;
+        BiFunction<Object, Class, Object> translateToNativeObject = JsonSimpleTypeMapping::objectToNative;
         return checkPath(json, typedPath, down, asList, translateToNativeObject);
     }
 

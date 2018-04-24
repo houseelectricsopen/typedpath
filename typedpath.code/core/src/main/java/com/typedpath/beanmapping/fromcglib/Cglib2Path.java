@@ -12,6 +12,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+/**
+ * creates TypedPaths using CGLib
+ * TODO implement skip
+ */
 public class Cglib2Path {
 
     public static <S> TypedPath<S, ?> root(
@@ -133,7 +137,10 @@ public class Cglib2Path {
     }
 
     private static boolean defaultIsSimple(Class theClass) {
-        if (theClass == UUID.class) {
+        if (theClass.isPrimitive()) {
+            return true;
+        }
+        else if (theClass == UUID.class) {
             return true;
         }
         else if (theClass.getPackage().getName().startsWith("java.lang")) {
