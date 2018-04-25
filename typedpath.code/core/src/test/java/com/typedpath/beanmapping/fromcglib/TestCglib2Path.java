@@ -74,7 +74,7 @@ public class TestCglib2Path {
         Assert.assertEquals(errors.size(), 3);
         Assert.assertTrue(errors.get(0).getPathString().equals("/defendants/0/lastName"));
         Assert.assertTrue(errors.get(1).getPathString().equals("/defendants/0/address/address1"));
-        //this test had chance because defents.0 overwrites defendants.10
+        //this test had no chance because defendants.0 overwrites defendants.10
         Assert.assertTrue(errors.get(2).getPathString().equals("/defendants/10/lastName"));
 
     }
