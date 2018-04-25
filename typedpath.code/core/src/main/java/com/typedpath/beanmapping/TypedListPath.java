@@ -23,7 +23,5 @@ public class TypedListPath<S, T, P extends TypedPath> extends TypedPath<S, T> {
     public boolean isList() {
         return filter!=null;
     }
-   //  just confuses autocomplete - hence moved to template!
-    // public abstract P get(int index);
 
 }

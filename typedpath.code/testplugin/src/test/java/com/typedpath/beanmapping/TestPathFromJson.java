@@ -19,7 +19,7 @@ public class TestPathFromJson {
         TypedPath<SendingSheetCompleted, String> courtCentreNamePath  = SendingSheetCompleted.root().hearing().courtCentreName();
         String json = ResourceUtil.readResource(new FileInputStream("./src/main/resources/fromjsonschema/sending-sheet-completed.data.json"));
         String courtCentreName =  JsonReader.extract(courtCentreNamePath, json);
-        Assert.assertEquals(courtCentreName, "Warwick Justice Centre");
+        Assert.assertEquals("Warwick Justice Centre",courtCentreName);
     }
 
     @Test

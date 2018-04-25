@@ -35,7 +35,6 @@ public class BuildCondensedSource {
             typedTemplate.setPackageName(newPackageName);
             for (Object oEnum : type.getEnumConstants()) {
                 Enum unum = (Enum) oEnum;
-                System.out.println(":name:" + unum.name());
                 typedTemplate.values.add(unum.name());
             }
         } else {
@@ -67,10 +66,8 @@ public class BuildCondensedSource {
                     ParameterizedType pt = (ParameterizedType) field.getGenericType();
                     fieldSpec.setType(pt.getActualTypeArguments()[0].getTypeName());
                     fieldSpec.setCollectionType(field.getType().getName());
-                } else if (isComplexFieldType!=null) {
-                    if (isComplexFieldType.apply(field.getType())) {
+                } else if (isComplexFieldType!=null && isComplexFieldType.apply(field.getType())) {
                         fieldSpec.setComplex();
-                    }
                 }
                 typedTemplate.getFields().add(fieldSpec);
             }

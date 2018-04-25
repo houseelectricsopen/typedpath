@@ -71,7 +71,7 @@ public class TestCglib2Path {
         // carry out checks
         List<CheckError> errors = TestUtil.checkJsonPath(strJson, path);
         errors.forEach(e -> System.out.println(e));
-        Assert.assertEquals(errors.size(), 3);
+        Assert.assertEquals(3, errors.size());
         Assert.assertTrue(errors.get(0).getPathString().equals("/defendants/0/lastName"));
         Assert.assertTrue(errors.get(1).getPathString().equals("/defendants/0/address/address1"));
         //this test had no chance because defendants.0 overwrites defendants.10

@@ -129,7 +129,7 @@ public class Templater {
             throw new Exception("no template found for " + values.getClass().getName());
         }
 
-        StringBuffer sbResult = new StringBuffer();
+        StringBuilder sbResult = new StringBuilder();
         int delimiterLength = TEMPLATE_TOKEN_DELIMITER.length();
         String listJoiner = null;
         Map<String, Function<Object, Object>> propertyNameToGetters = (new PropertyAnalyser()).extractReadableProperties(values);

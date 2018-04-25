@@ -228,7 +228,7 @@ public class TypedPath<S, T> {
     }
 
     public String toString(String linePrefix) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(linePrefix);
         sb.append(ShortName());
         if (alias!=null) {
@@ -272,7 +272,7 @@ public class TypedPath<S, T> {
     }
 
     public void followSelectedPath(Move onMove, Object source, boolean isListItem, Integer propertyIndex, boolean metaPath) {
-        PathDown down = (downPath, parent) -> downPath.get.apply(parent);
+        PathDown down = (downPath, parentIn) -> downPath.get.apply(parentIn);
         PathAsList asList = (o)->(List)o;
         followSelectedPath(onMove, source, isListItem, propertyIndex, metaPath,  down, asList);
     }
@@ -383,7 +383,6 @@ public class TypedPath<S, T> {
     public static <X extends TypedPath, Y extends TypedPath> void link(X from, Y to, BiConsumer<X, Y> ...linkers ) {
         // TODO clone from, to here ?
         // or just work off intos ?
-        //System.out.println("linked " + from + " to " + to) ;
         from.link=to;
            for (BiConsumer<X, Y> linker : linkers ) {
                linker.accept(from, to);
@@ -408,7 +407,7 @@ public class TypedPath<S, T> {
     }
 
     //copy into links
-    protected TypedPath into = null;//new ArrayList<>();
+    protected TypedPath into = null;
     public TypedPath getInto() {
         return into;
     }

@@ -67,7 +67,6 @@ public class PathsForImmutableBeansMojo extends AbstractMojo{
         Function<Class, Boolean> isComplexFieldType = cl->lTypes.contains(cl);
 
         //TODO should add source path here to reduce config ?
-        //project.addCompileSourceRoot("path/to/your/generated/sources");
 
         try {
             for (Class type : lTypes) {

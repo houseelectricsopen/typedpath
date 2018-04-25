@@ -21,7 +21,6 @@ public class Cglib2Path {
     public static <S> TypedPath<S, ?> root(
             Class<S> theClass, Consumer<S> ...rootConsumers
     ) {
-        UniqueSimpleValueDefaulter.reset();
         TypedPath<S, ?> root = new TypedPath<S, Object>(null, "", null, Object.class);
         root.Complex(true);
         Handler handler = new Handler(root, null, null, Cglib2Path::defaultIsSimple,
@@ -37,32 +36,29 @@ public class Cglib2Path {
         for (Function<T, ?> ls : lss) {
             ls.apply(selectParent);
         }
-        Function<S, T> selectParentFunction = (s) -> selectParent;
-        return selectParentFunction;
+        return  (s) -> selectParent;
     }
 
     public static <S, T> Function<S, T> check(Function<S, T> ls, Function<Object, T> checker) {
-        Function<S, T> resultF = s -> {
+        return  s -> {
             T result = ls.apply(s);
             TypedPath typedPath = Handler.getThreadLocalTypedPath();
             typedPath.check(checker);
             return result;
         };
-        return resultF;
     }
 
     public static <S, T> Function<S, T> as(Function<S, T> ls, String as) {
-        Function<S, T> resultF = s -> {
+        return s -> {
             T result = ls.apply(s);
             TypedPath typedPath = Handler.getThreadLocalTypedPath();
             typedPath.as(as);
             return result;
         };
-        return resultF;
     }
 
     public static <T> T alias(T node, String as) {
-        TypedPath typedPath = Handler.getTypedPath4Object(node);//    Handler.getThreadLocalTypedPath();
+        TypedPath typedPath = Handler.getTypedPath4Object(node);
         typedPath.as(as);
         return node;
     }
@@ -79,7 +75,6 @@ public class Cglib2Path {
         Handler itemhandler = new Handler(itemPath, handler, handler.itemType, Cglib2Path::defaultIsSimple, Cglib2Path::defaultSimpleValueDefaulter);
         T source = (T) Enhancer.create(handler.itemType, itemhandler);
         Handler.setHandler4Object(source, itemhandler);
-        Handler handler4Obj = Handler.getHandler4Object(source);
 
         return source;
     }
@@ -92,7 +87,6 @@ public class Cglib2Path {
     public static <F, T> T map(
             Class<F> fromClass, Class<T> toClass, BiConsumer<F, T> consumer, F source
     ) {
-        UniqueSimpleValueDefaulter.reset();
         TypedPath<F, ?> fromPath = new TypedPath<F, Object>(null, "", null, Object.class);
         fromPath.Complex(true);
         Handler fromHandler = new Handler(fromPath, null, null, Cglib2Path::defaultIsSimple, Cglib2Path::defaultSimpleValueDefaulter);

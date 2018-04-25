@@ -26,10 +26,12 @@ public class ImmutableBeanCondensed extends ClassSourceTemplate implements Templ
     }
 
     //represent to make templateable
+    @Override
     public String getPackageName() {
         return super.getPackageName();
     }
     //repreent to make templateable
+    @Override
     public String getSimpleName() {
         return super.getSimpleName();
     }

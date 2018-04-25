@@ -6,11 +6,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 // TODO make this open
 public class UniqueSimpleValueDefaulter {
-      //TODO remove this
-      public static void reset() {
 
-      }
-
+      //TODO open this up
       public static Object getNextValue(Class theClass) {
           if (String.class == theClass) {
               return new String("hi");

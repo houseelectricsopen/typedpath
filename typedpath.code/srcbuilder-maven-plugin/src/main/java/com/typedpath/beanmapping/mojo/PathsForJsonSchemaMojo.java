@@ -51,7 +51,6 @@ public class PathsForJsonSchemaMojo extends AbstractMojo{
             String templateName = "ImmutableBeanAndPaths.template";
             System.out.println("looking up " + templateName);
             String template = ResourceUtil.readResourceByName(PathsForJsonSchemaMojo.class,  templateName);
-            //JsonUtil.printJsonObject(json);
             (new JsonSourceBuilder()).mapJsonToImmutableBeanSource(json, packageRootDirectory, destinationPackage, rootClassShortName, template);
         } catch (Exception ex) {
             throw new MojoFailureException("failed to process  jsonSchemaFile " + fJsonSchemaFile.getAbsolutePath(), ex);
