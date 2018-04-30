@@ -25,7 +25,7 @@ public class ##SimpleName##Path<S> extends TypedPath<S, ##SimpleName##> {
 ##NonComplexFields##^
     public TypedPath<S, ##TypeAsString##> ##Name##() {
             Function<Object, ##TypeAsString##> jget = p->((##ParentTypeAsString##)p).get##PropertyName##();
-            TypedPath<S, ##TypeAsString##> result = new TypedPath<S, ##TypeAsString##>(this, "##Name##", jget, ##TypeAsString##.class);
+            TypedPath<S, ##TypeAsString##> result = new TypedPath<>(this, "##Name##", jget, ##TypeAsString##.class);
             this.touch(result);
             return result;
         }^^
@@ -33,7 +33,7 @@ public class ##SimpleName##Path<S> extends TypedPath<S, ##SimpleName##> {
 ##ComplexNonListFields##^
     public ##TypeAsString##Path<S> ##Name##() {
             Function<Object, ##TypeAsString##> jget = (p)->((##ParentTypeAsString##)p).get##PropertyName##();
-            ##TypeAsString##Path<S> result = new ##TypeAsString##Path<S>(this, "##Name##", jget);
+            ##TypeAsString##Path<S> result = new ##TypeAsString##Path<>(this, "##Name##", jget);
             this.touch(result);
             return result;
         }^^
@@ -67,7 +67,6 @@ public static class ##PropertyName##ListPath<S> extends TypedListPath<S,  ##Type
         Function<Object,##TypeAsString##> jget = p->{
             //TODO review this
             return ((##ParentSimpleName##)p).get##PropertyName##();
-            //throw new RuntimeException("##PropertyName##Path.all get is invalid - possibly called get on a multi path try getNodesAssumeSinglePath");
         };
         this.filter = (d) -> true;
         ##ContainedTypeAsString##Path path = new ##ContainedTypeAsString##Path(this, "", jget);
@@ -118,7 +117,7 @@ public static class ##PropertyName##ListPath<S> extends TypedListPath<S,  ##Type
     public ##SimpleName##Path<S> select(
             Consumer<##SimpleName##Path<##SimpleName##>>... ls
     ) {
-        ##SimpleName##Path<##SimpleName##> target = new ##SimpleName##Path<##SimpleName##>(null, ".");
+        ##SimpleName##Path<##SimpleName##> target = new ##SimpleName##Path<>(null, ".");
         for (Consumer<##SimpleName##Path<##SimpleName##>> l : ls ) {
             l.accept(target);
         }
@@ -127,7 +126,7 @@ public static class ##PropertyName##ListPath<S> extends TypedListPath<S,  ##Type
     }
 
 public static ##SimpleName##Path<##SimpleName##> root() {
-        return new ##SimpleName##Path<##SimpleName##>(null, "");
+        return new ##SimpleName##Path<>(null, "");
     }
 
 

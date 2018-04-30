@@ -209,7 +209,6 @@ public class TypedPath<S, T> {
     public T getWithUpperlimit(Object o, IncompletePathConsumer onIncompletePath, PathDown pathDown, TypedPath upperLimitPath) {
         final List<TypedPath> downStack = buildDownStack(upperLimitPath);
         for (int done=downStack.size()-2; done>=0 ; done--) {
-            //o=downStack.get(done).get.apply(o);
             o = pathDown.down(downStack.get(done), o);
             if (o==null && done!=0) {
                 if (onIncompletePath!=null) {

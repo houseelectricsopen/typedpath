@@ -19,6 +19,7 @@ public class ImmutableBeanCondensed extends ClassSourceTemplate implements Templ
         return fields.stream().filter((f)->!f.complex()).collect(Collectors.toList());
     }
     public List<FieldSpec> getComplexListFields() {
+
         return fields.stream().filter((f)->f.complex() && f.getCollectionType()!=null ).collect(Collectors.toList());
     }
     public List<FieldSpec> getComplexNonListFields() {

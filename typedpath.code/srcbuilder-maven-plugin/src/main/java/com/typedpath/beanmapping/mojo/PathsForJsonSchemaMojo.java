@@ -25,8 +25,14 @@ public class PathsForJsonSchemaMojo extends AbstractMojo{
     private String jsonSchemaFile;
 
     @Parameter( property = "rootClassShortName", required = true )
-    private
-    String rootClassShortName;
+    private  String rootClassShortName;
+
+    @Parameter( property = "templateName", required = false )
+    private String templateName="ImmutableBeanAndPaths.template";
+
+    private String getTemplateName() {
+        return templateName;
+    }
 
     public void execute() throws MojoExecutionException, MojoFailureException {
         String strContext = getClass().getSimpleName() + "::execute";
@@ -48,10 +54,10 @@ public class PathsForJsonSchemaMojo extends AbstractMojo{
         }
 
         try {
-            String templateName = "ImmutableBeanAndPaths.template";
+            String templateName = getTemplateName();
             System.out.println("looking up " + templateName);
             String template = ResourceUtil.readResourceByName(PathsForJsonSchemaMojo.class,  templateName);
-            (new JsonSourceBuilder()).mapJsonToImmutableBeanSource(json, packageRootDirectory, destinationPackage, rootClassShortName, template);
+            (new  JsonSourceBuilder()).mapJsonToImmutableBeanSource(json, packageRootDirectory, destinationPackage, rootClassShortName, template);
         } catch (Exception ex) {
             throw new MojoFailureException("failed to process  jsonSchemaFile " + fJsonSchemaFile.getAbsolutePath(), ex);
 
@@ -90,4 +96,24 @@ public class PathsForJsonSchemaMojo extends AbstractMojo{
     public void setRootClassShortName(String rootClassShortName) {
         this.rootClassShortName = rootClassShortName;
     }
+
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
+    }
+
+    public static void main(String []args) throws Exception {
+        PathsForJsonSchemaMojo pathsForJsonSchemaMojo = new PathsForJsonSchemaMojo();
+        pathsForJsonSchemaMojo.setDestinationPackage("com.temp");
+        pathsForJsonSchemaMojo.setDestinationSourceRoot("/c/temp");
+        pathsForJsonSchemaMojo.setTemplateName("FluidSettablePojo.template");
+        pathsForJsonSchemaMojo.setJsonSchemaFile("./typedpath.code/testplugin/src/main/resources/fromjsonschema/hearing.command.generate-nows-schema.json");
+        pathsForJsonSchemaMojo.setRootClassShortName("GenerateNow");
+        pathsForJsonSchemaMojo.execute();
+
+
+
+
+
+    }
+
 }

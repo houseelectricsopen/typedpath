@@ -131,8 +131,8 @@ public class JsonSourceBuilder {
             {
                 throw new Exception("expected properties for " + context);
             }
-        if (!(oProperties instanceof ScriptObjectMirror)) {
-            throw new Exception("expected properties for " + context);
+        if (!(oProperties instanceof ScriptObjectMirror))  {
+            throw new Exception("expected properties for " + context + " to be of type " + oProperties.getClass().getName());
         }
         ScriptObjectMirror properties = (ScriptObjectMirror) oProperties;
         for (Map.Entry<String, Object> entry : properties.entrySet()) {
@@ -168,16 +168,27 @@ public class JsonSourceBuilder {
                  fieldSpec.setComplex();
             } else if ("array".equals(type)) {
                 ScriptObjectMirror itemDef = (ScriptObjectMirror) propertyDef.get("items");
-                if (itemDef.containsKey("$ref")) {
+                if (itemDef==null || !itemDef.containsKey("type") || !"object".equals(itemDef.get("type"))) {
+                    //its a raw array
+                    if (!itemDef.containsKey("type")) {
+                        throw new Exception("array with no properties is expected to have exactly 1 item defining a raw type " + pName);
+                    }
+                    strType = classNameMapper.apply(""+itemDef.get("type")) +  "[]";
+
+                }
+                else if (itemDef.containsKey("$ref")) {
                     //  types are rewritten  after definitions have beenn digested
                      strType = itemDef.get("$ref").toString();// classNameMapper.apply(itemDef.get("$ref").toString());
+                    fieldSpec.setCollectionType(List.class.getName());
+                    //TODO remove assumption that all collection types are complex
+                    fieldSpec.setComplex();
                 } else {
                    ImmutableBeanCondensed subClass =  mapJsonSchemaObject(itemDef, pName, destinationPackage, classNameMapper, contextToClassTemplateValues);
                     strType = subClass.getSimpleName();
+                    fieldSpec.setCollectionType(List.class.getName());
+                    //TODO remove assumption that all collection types are complex
+                    fieldSpec.setComplex();
                 }
-                fieldSpec.setCollectionType(List.class.getName());
-                //TODO remove assumption that all collection types are complex
-                fieldSpec.setComplex();
             } else
                 {
                     //TODO remove assumption that class name can be inferred from ref name

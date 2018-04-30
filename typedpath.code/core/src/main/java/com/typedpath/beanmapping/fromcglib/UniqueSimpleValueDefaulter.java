@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * create unique default objects by unique meaning identity (==) unique
+ */
 // TODO make this open
 public class UniqueSimpleValueDefaulter {
 

@@ -49,7 +49,7 @@ public static class ##SimpleName##Path<S> extends TypedPath<S, ##SimpleName##> {
 ##NonComplexFields##^
     public TypedPath<S, ##TypeAsString##> ##Name##() {
             Function<Object, ##TypeAsString##> jget = p->((##ParentTypeAsString##)p).get##PropertyName##();
-            TypedPath<S, ##TypeAsString##> result = new TypedPath<S, ##TypeAsString##>(this, "##Name##", jget, ##TypeAsString##.class);
+            TypedPath<S, ##TypeAsString##> result = new TypedPath<>(this, "##Name##", jget, ##TypeAsString##.class);
             this.touch(result);
             return result;
         }^^
@@ -57,7 +57,7 @@ public static class ##SimpleName##Path<S> extends TypedPath<S, ##SimpleName##> {
 ##ComplexNonListFields##^
     public ##TypeAsString##.##TypeAsString##Path<S> ##Name##() {
             Function<Object, ##TypeAsString##> jget = (p)->((##ParentTypeAsString##)p).get##PropertyName##();
-            ##TypeAsString##.##TypeAsString##Path<S> result = new ##TypeAsString##.##TypeAsString##Path<S>(this, "##Name##", jget);
+            ##TypeAsString##.##TypeAsString##Path<S> result = new ##TypeAsString##.##TypeAsString##Path<>(this, "##Name##", jget);
             this.touch(result);
             return result;
         }^^
@@ -139,7 +139,7 @@ public static class ##PropertyName##ListPath<S> extends TypedListPath<S,  ##Type
     public ##SimpleName##Path<S> select(
             Consumer<##SimpleName##Path<##SimpleName##>>... ls
     ) {
-        ##SimpleName##Path<##SimpleName##> target = new ##SimpleName##Path<##SimpleName##>(null, ".");
+        ##SimpleName##Path<##SimpleName##> target = new ##SimpleName##Path<>(null, ".");
         for (Consumer<##SimpleName##Path<##SimpleName##>> l : ls ) {
             l.accept(target);
         }
@@ -150,7 +150,7 @@ public static class ##PropertyName##ListPath<S> extends TypedListPath<S,  ##Type
 }
 
 public static ##SimpleName##Path<##SimpleName##> root() {
-         return new ##SimpleName##Path<##SimpleName##>(null, "", null);
+         return new ##SimpleName##Path<>(null, "", null);
     }
 
 
