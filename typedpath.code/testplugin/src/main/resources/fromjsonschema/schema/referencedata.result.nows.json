@@ -1,73 +1,88 @@
 {
-  "$id": "http://example.com/example.json",
-  "type": "object",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
-  "_TODO1": "assuming priority is a function of urgentTimeLimitMinutes",
-  "_TODO2": "security groups",
-
-  "type": "object",
-  "properties": {
-    "nows": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/now"
+   "$schema":"http://json-schema.org/draft-07/schema#",
+   "type":"object",
+   "_TODO1":"assuming priority is a function of urgentTimeLimitMinutes",
+   "_TODO2":"security groups",
+   "properties":{
+      "nows":{
+         "type":"array",
+         "items":{
+            "$ref":"#/definitions/now"
+         }
       }
-    }
-  },
-
-  "definitions": {
-    "now": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "$ref": "#/definitions/uuidPattern"
-        },
-        "name": {
-          "type": "string"
-        },
-        "templateName": {
-          "type": "string"
-        },
-        "jurisdiction": {
-          "type": "string"
-        },
-        "rank": {
-          "type": "integer"
-        },
-        "text": {
-          "type": "string"
-        },
-        "welshText": {
-          "type": "string"
-        },
-        "urgentTimeLimitMinutes": {
-          "type": "integer"
-        },
-        "resultDefinitionReferences": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [],
-            "properties": {
-              "resultDefinitionId": {
-                "$ref": "#/definitions/uuidPattern"
-              },
-              "mandatory": {
-                "type": "boolean"
-              },
-              "primaryResult": {
-                "type": "boolean"
-              },
-              "sequence": {
-                "type": "integer"
-              }
+   },
+   "additionalProperties":false,
+   "required":[
+      "nows"
+   ],
+   "definitions":{
+      "now":{
+         "type":"object",
+         "properties":{
+            "id":{
+               "$ref":"#/definitions/uuidPattern"
+            },
+            "version":{
+               "type":"string",
+               "format":"date-time"
+            },
+            "name":{
+               "type":"string"
+            },
+            "templateName":{
+               "type":"string"
+            },
+            "jurisdiction":{
+               "type":"string"
+            },
+            "rank":{
+               "type":"integer"
+            },
+            "text":{
+               "type":"string"
+            },
+            "welshText":{
+               "type":"string"
+            },
+            "urgentTimeLimitInMinutes":{
+               "type":"integer"
+            },
+            "resultDefinitions":{
+               "type":"array",
+               "items":{
+                  "type":"object",
+                  "properties":{
+                     "id":{
+                        "$ref":"#/definitions/uuidPattern"
+                     },
+                     "mandatory":{
+                        "type":"boolean"
+                     },
+                     "primaryResult":{
+                        "type":"boolean"
+                     },
+                     "sequence":{
+                        "type":"integer"
+                     }
+                  },
+                  "additionalProperties":false,
+                  "required":[
+                     "id",
+                     "mandatory",
+                     "primaryResult",
+                     "sequence"
+                  ]
+               }
             }
-          }
-        }
+         },
+         "additionalProperties":false,
+         "required":[
+            "id",
+            "version",
+            "name",
+            "templateName",
+            "rank"
+         ]
       }
-    }
-  }
-
-
+   }
 }

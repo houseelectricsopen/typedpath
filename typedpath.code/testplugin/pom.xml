@@ -111,7 +111,7 @@
 						<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
 						<destinationPackage>uk.gov.moj.cpp.hearing.command.generatedsource.generatenows</destinationPackage>
 						<templateName>FluidSettablePojo.template</templateName>
-						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/hearing.command.generate-nows-schema.json</jsonSchemaFile>
+						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/hearing.command.generate-nows-schema.json</jsonSchemaFile>
 						<rootClassShortName>GenerateNow</rootClassShortName>
 					</configuration>
 				</execution>

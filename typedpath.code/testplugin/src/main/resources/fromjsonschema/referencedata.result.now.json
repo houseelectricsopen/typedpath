@@ -1,0 +1,21 @@
+{
+  "id": "4daefec6-5f77-4109-82d9-1e60544a6c05",
+  "name": "Imprisonment Order",
+  "templateName": "Single template",
+  "jurisdiction": "B",
+  "rank": 1,
+  "text": "some text",
+  "welshText": "rhywfaint o destun",
+  "urgentTimeLimit": 0.5,
+  "resultDefinitionLinks": [
+    {
+      "resultDefinitionId": "0baecac5-222b-402d-9047-84803679edae",
+      "mandatory": true,
+      "primaryResult": true,
+      "sequence": 1
+    }
+  ]
+
+
+
+  }
