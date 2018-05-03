@@ -168,7 +168,10 @@ public class JsonSourceBuilder {
                  fieldSpec.setComplex();
             } else if ("array".equals(type)) {
                 ScriptObjectMirror itemDef = (ScriptObjectMirror) propertyDef.get("items");
-                if (itemDef==null || !itemDef.containsKey("type") || !"object".equals(itemDef.get("type"))) {
+                if (itemDef!=null && itemDef.containsKey("$ref")) {
+                    strType = itemDef.get("$ref").toString() +"[]";
+                }
+                else if (itemDef==null || !itemDef.containsKey("type") || !"object".equals(itemDef.get("type"))) {
                     //its a raw array
                     if (!itemDef.containsKey("type")) {
                         throw new Exception("array with no properties is expected to have exactly 1 item defining a raw type " + pName);

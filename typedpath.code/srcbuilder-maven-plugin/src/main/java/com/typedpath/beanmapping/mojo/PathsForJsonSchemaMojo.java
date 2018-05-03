@@ -104,10 +104,10 @@ public class PathsForJsonSchemaMojo extends AbstractMojo{
     public static void main(String []args) throws Exception {
         PathsForJsonSchemaMojo pathsForJsonSchemaMojo = new PathsForJsonSchemaMojo();
         pathsForJsonSchemaMojo.setDestinationPackage("com.temp");
-        pathsForJsonSchemaMojo.setDestinationSourceRoot("/c/temp");
+        pathsForJsonSchemaMojo.setDestinationSourceRoot("/temp");
         pathsForJsonSchemaMojo.setTemplateName("FluidSettablePojo.template");
-        pathsForJsonSchemaMojo.setJsonSchemaFile("./typedpath.code/testplugin/src/main/resources/fromjsonschema/hearing.command.generate-nows-schema.json");
-        pathsForJsonSchemaMojo.setRootClassShortName("GenerateNow");
+        //pathsForJsonSchemaMojo.setJsonSchemaFile("./typedpath.code/testplugin/src/main/resources/fromjsonschema/hearing.command.generate-nows-schema.json");
+        pathsForJsonSchemaMojo.setJsonSchemaFile("./typedpath.code/testplugin/src/main/resources/fromjsonschema/schema/referencedata.result.nows.json");        pathsForJsonSchemaMojo.setRootClassShortName("GenerateNow");
         pathsForJsonSchemaMojo.execute();
 
 

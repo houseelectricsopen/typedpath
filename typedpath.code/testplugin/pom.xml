@@ -100,6 +100,38 @@
 						<rootClassShortName>SendingSheetCompleted</rootClassShortName>
 					</configuration>
 				</execution>
+
+				<execution>
+					<phase>generate-sources</phase>
+					<id>jsontestfluidsettablelepojosforjsonschema</id>
+					<goals>
+						<goal>pathsforjsonschema</goal>
+					</goals>
+					<configuration>
+						<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
+						<destinationPackage>uk.gov.moj.cpp.hearing.command.generatedsource.generatenows</destinationPackage>
+						<templateName>FluidSettablePojo.template</templateName>
+						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/hearing.command.generate-nows-schema.json</jsonSchemaFile>
+						<rootClassShortName>GenerateNow</rootClassShortName>
+					</configuration>
+				</execution>
+
+				<execution>
+					<phase>generate-sources</phase>
+					<id>jsontestfluidsettablelepojosforjsonschema2</id>
+					<goals>
+						<goal>pathsforjsonschema</goal>
+					</goals>
+					<configuration>
+						<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
+						<destinationPackage>uk.gov.moj.cpp.external.domain.generatedsource.referencedata.referencedata.getnow</destinationPackage>
+						<templateName>FluidSettablePojo.template</templateName>
+						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/referencedata.result.nows.json</jsonSchemaFile>
+						<rootClassShortName>AllNows</rootClassShortName>
+					</configuration>
+				</execution>
+
+
 			</executions>
 
 			<dependencies>
