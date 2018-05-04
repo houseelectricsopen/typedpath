@@ -27,6 +27,16 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>1.10.19</version>
+				<!-- provided because mockito cglib may or may not be available-->
+				<!-- TODO later mockitos version use bytebuddy instead of a cglib version-->
+				<scope>provided</scope>
+			</dependency>
+
+
+			<dependency>
 				<groupId>com.typedpath</groupId>
 				<artifactId>typedpath-testdomain</artifactId>
 				<version>${project.version}</version>

@@ -2,9 +2,6 @@ package com.typedpath.beanmapping.fromcglib;
 
 import com.typedpath.beanmapping.TypedListPath;
 import com.typedpath.beanmapping.TypedPath;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -14,7 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class Handler  implements MethodInterceptor {
+public abstract class Handler {
 
     final TypedPath parent;
     final Handler parentHandler;
@@ -57,10 +54,12 @@ public class Handler  implements MethodInterceptor {
         }
     }
 
-    public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        if (   !method.getName().startsWith("get") && !method.getName().startsWith("is")) {
-            return methodProxy.invokeSuper(o, args);
-        }
+
+    protected boolean isInterceptable(Method method) {
+        return method.getName().startsWith("get") || method.getName().startsWith("is");
+    }
+
+    protected Object intercept(Object o, Method method, Object[] args) throws Throwable {
 
         TypedPath child = null;
         Class returnType =null;
@@ -94,7 +93,8 @@ public class Handler  implements MethodInterceptor {
         }
 
         parent.touch(child);
-        Handler childHandler = new Handler(child, this, itemType, isSimple, uniqueSimpleValueDefaulter);
+        Handler childHandler = createChildHandler(child, this, itemType, isSimple, uniqueSimpleValueDefaulter);
+
         latestTypedPath.set(child);
         Object result;
         if (returnType==null) {
@@ -105,11 +105,17 @@ public class Handler  implements MethodInterceptor {
             result = uniqueSimpleValueDefaulter.apply(returnType);
         } else {
             child.Complex(true);
-            result = Enhancer.create(returnType, childHandler);
+            result = create(returnType, childHandler);
+            //result = Enhancer.create(returnType, childHandler);
         }
         getObject2Handler().put(result, childHandler);
         return result;
     }
+
+    abstract protected <C>  C create(Class<C> theClass, Handler handler);
+    abstract protected Handler createChildHandler(TypedPath parent, Handler parentHandler, Class itemType,
+                                                  Predicate<Class> isSimple, Function<Class, Object> uniqueSimpleValueDefaulter);
+
 
     // TODO review these mappings
     private static ThreadLocal<TypedPath> latestTypedPath = new ThreadLocal<>();

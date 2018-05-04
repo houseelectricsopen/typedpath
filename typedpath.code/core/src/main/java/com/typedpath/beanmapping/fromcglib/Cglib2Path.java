@@ -3,14 +3,17 @@ package com.typedpath.beanmapping.fromcglib;
 import com.typedpath.beanmapping.Mapper;
 import com.typedpath.beanmapping.TypedListPath;
 import com.typedpath.beanmapping.TypedPath;
-import net.sf.cglib.proxy.Enhancer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * creates TypedPaths using CGLib
@@ -18,15 +21,39 @@ import java.util.function.Predicate;
  */
 public class Cglib2Path {
 
+    private static ProxyFactory proxyFactory = null;
+
+    static {
+        //TODO Mockito 2
+        final List<Supplier<ProxyFactory>> proxyFactorySuppliers =
+                Arrays.asList(()->new MockitoCglibProxyFactory(), ()->new CglibProxyFactory() );
+
+        List<String> errors = new ArrayList<>();
+        //try each proxy supplier
+        for (Supplier<ProxyFactory> proxyFactorySupplier : proxyFactorySuppliers) {
+            ProxyFactory candidateProxyFactory = proxyFactorySupplier.get();
+            String error = candidateProxyFactory.availibilityError();
+            if (error==null) {
+                proxyFactory = candidateProxyFactory;
+            } else {
+                errors.add(error);
+            }
+        }
+        if (proxyFactory==null) {
+            throw new RuntimeException(errors.stream().collect(Collectors.joining(", ")));
+        }
+
+    }
+
     public static <S> TypedPath<S, ?> root(
             Class<S> theClass, Consumer<S> ...rootConsumers
     ) {
         TypedPath<S, ?> root = new TypedPath<S, Object>(null, "", null, Object.class);
         root.Complex(true);
-        Handler handler = new Handler(root, null, null, Cglib2Path::defaultIsSimple,
+        Handler handler = proxyFactory.createHandler(root, null, null, Cglib2Path::defaultIsSimple,
                  Cglib2Path::defaultSimpleValueDefaulter
                    );
-        S source = (S) Enhancer.create(theClass, handler);
+        S source = proxyFactory.create(theClass, handler);
         for (Consumer<S> rootConsumer : rootConsumers)
             rootConsumer.accept(source);
         return root;
@@ -71,9 +98,8 @@ public class Cglib2Path {
         typedPath.touch(itemPath);
         itemPath.Complex(true);
 
-        //TODO move this into handler
-        Handler itemhandler = new Handler(itemPath, handler, handler.itemType, Cglib2Path::defaultIsSimple, Cglib2Path::defaultSimpleValueDefaulter);
-        T source = (T) Enhancer.create(handler.itemType, itemhandler);
+        Handler itemhandler =  proxyFactory.createHandler(itemPath, handler, handler.itemType, Cglib2Path::defaultIsSimple, Cglib2Path::defaultSimpleValueDefaulter);
+        T source = (T) proxyFactory.create(handler.itemType, itemhandler);
         Handler.setHandler4Object(source, itemhandler);
 
         return source;
@@ -89,13 +115,13 @@ public class Cglib2Path {
     ) {
         TypedPath<F, ?> fromPath = new TypedPath<F, Object>(null, "", null, Object.class);
         fromPath.Complex(true);
-        Handler fromHandler = new Handler(fromPath, null, null, Cglib2Path::defaultIsSimple, Cglib2Path::defaultSimpleValueDefaulter);
-        F fromTemplate = (F) Enhancer.create(fromClass, fromHandler);
+        Handler fromHandler = proxyFactory.createHandler(fromPath, null, null, Cglib2Path::defaultIsSimple, Cglib2Path::defaultSimpleValueDefaulter);
+        F fromTemplate = (F) proxyFactory.create(fromClass, fromHandler);
 
         TypedPath<T, ?> toPath = new TypedPath<T, T>(null, "", null, toClass);
         toPath.Complex(true);
-        Handler toHandler = new Handler(toPath, null, null, Cglib2Path::defaultIsSimple, Cglib2Path::defaultSimpleValueDefaulter);
-        T toTemplate = (T) Enhancer.create(toClass, toHandler);
+        Handler toHandler = proxyFactory.createHandler(toPath, null, null, Cglib2Path::defaultIsSimple, Cglib2Path::defaultSimpleValueDefaulter);
+        T toTemplate = (T) proxyFactory.create(toClass, toHandler);
 
         //its considered an error for there not to be a link at the top level
         //TODO review this rule
