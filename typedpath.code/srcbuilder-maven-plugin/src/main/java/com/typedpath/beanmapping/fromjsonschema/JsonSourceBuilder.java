@@ -11,6 +11,7 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,8 @@ public class JsonSourceBuilder {
                        return "null";
                    } else if (c.equals("#/definitions/datePattern")) {
                        return LocalDate.class.getName();
+                   } else if (c.equals("#/definitions/isoDate")) {
+                       return Date.class.getName();
                    } else if (c.startsWith("#/definitions/uuid")) {
                        return UUID.class.getName();
                    } else if (c.startsWith("#/definitions/")) {
