@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": ".",
+    "paths": {
+      "*": [
+            "./*",
+        "../../../../../../target/generatedtssrc/com/typedpath/gentypescript/*"
+      ]
+    }
+  },
+  "include": [
+           "test.ts",
+        "../../../../../../target/generatedtssrc/com/typedpath/gentypescript/*.ts"
+         ],
+   "exclude": []
+}
+

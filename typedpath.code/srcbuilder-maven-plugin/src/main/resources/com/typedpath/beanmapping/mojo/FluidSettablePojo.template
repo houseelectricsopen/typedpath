@@ -1,22 +1,23 @@
 package ##PackageName##;
 
-import java.util.List;
-import java.util.Arrays;
-import java.util.UUID;
+import java.io.Serializable;
+##ExtractFieldImports##^import ##Typename##;^^
 
-//###BuildWatermark###
-public class ##SimpleName##{
+public class ##SimpleName##  implements Serializable {
 ##Fields##^
     private ##TypeAsString## ##Name##;^
     ^
-
 ##Fields##^
-    public ##TypeAsString## get##PropertyName##() { return this.##Name##;}^^
-
+    public ##TypeAsString## get##PropertyName##() {
+         return this.##Name##;
+         }^^
 ##Fields##^
     public ##ParentSimpleName## set##PropertyName##(##TypeAsString## ##Name##) {
             this.##Name##=##Name##;
             return this;
         }^^
 
+    public static ##SimpleName## ##SimpleNameCamelCase##() {
+        return new ##SimpleName##();
+    }
 }

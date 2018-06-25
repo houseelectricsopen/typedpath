@@ -109,10 +109,10 @@
 					</goals>
 					<configuration>
 						<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
-						<destinationPackage>uk.gov.moj.cpp.hearing.command.generatedsource.generatenows</destinationPackage>
+						<destinationPackage>uk.gov.moj.cpp.hearing.event.nowsdomain.generatenows</destinationPackage>
 						<templateName>FluidSettablePojo.template</templateName>
 						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/hearing.command.generate-nows-schema.json</jsonSchemaFile>
-						<rootClassShortName>GenerateNow</rootClassShortName>
+						<rootClassShortName>GenerateNowsCommand</rootClassShortName>
 					</configuration>
 				</execution>
 
@@ -124,12 +124,48 @@
 					</goals>
 					<configuration>
 						<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
-						<destinationPackage>uk.gov.moj.cpp.external.domain.generatedsource.referencedata.referencedata.getnow</destinationPackage>
+						<destinationPackage>uk.gov.moj.cpp.hearing.command.nowsdomain.variants</destinationPackage>
 						<templateName>FluidSettablePojo.template</templateName>
-						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/referencedata.result.nows.json</jsonSchemaFile>
+						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/hearing.save-nows-variants.json</jsonSchemaFile>
+						<rootClassShortName>SaveNowsVariantsCommand</rootClassShortName>
+					</configuration>
+				</execution>
+
+
+				<execution>
+					<phase>generate-sources</phase>
+					<id>jsontestfluidsettablelepojosfornowsreferencedata</id>
+					<goals>
+						<goal>pathsforjsonschema</goal>
+					</goals>
+					<configuration>
+						<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
+						<destinationPackage>uk.gov.moj.cpp.hearing.event.nowsdomain.referencedata.nows</destinationPackage>
+						<templateName>FluidSettablePojo.template</templateName>
+						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/referencedata.get-all-nows-metadata.json</jsonSchemaFile>
 						<rootClassShortName>AllNows</rootClassShortName>
 					</configuration>
 				</execution>
+
+				<execution>
+					<phase>generate-sources</phase>
+					<id>jsontestfluidsettablelepojosforresultdefinitionreferencedata</id>
+					<goals>
+						<goal>pathsforjsonschema</goal>
+					</goals>
+					<configuration>
+						<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
+						<destinationPackage>uk.gov.moj.cpp.hearing.event.nowsdomain.referencedata.resultdefinition</destinationPackage>
+						<templateName>FluidSettablePojo.template</templateName>
+						<!-- referencedata.get-all-result-definitions.json-->
+						<!-- missing version property-->
+						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/referencedata.get-all-result-definitions.json</jsonSchemaFile>
+						<!--jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/referencedata.result.definition.now.json</jsonSchemaFile-->
+						<rootClassShortName>AllResultDefinitions</rootClassShortName>
+					</configuration>
+				</execution>
+
+
 
 
 			</executions>

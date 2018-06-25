@@ -3,10 +3,12 @@ package com.typedpath.beanmapping;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Function;
 
 public class SourcePrinter {
-    public void print(File packageRoot, String className, String code) {
-        String strFilePath = className.replace(".", "/") + ".java";
+    public void print(File packageRoot, String className, String code, Function<String, String> classNameToSourceFileName) {
+        String strFilePath =  className.replace(".", "/");
+        strFilePath = classNameToSourceFileName.apply(strFilePath);
         Path sourceFilePath = packageRoot.toPath().resolve(strFilePath);
         File parent = sourceFilePath.toFile().getParentFile();
         parent.mkdirs();

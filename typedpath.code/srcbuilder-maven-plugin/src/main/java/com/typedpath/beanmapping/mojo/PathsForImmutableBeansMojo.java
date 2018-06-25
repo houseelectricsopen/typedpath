@@ -74,7 +74,7 @@ public class PathsForImmutableBeansMojo extends AbstractMojo{
                 mappedClasses.forEach(mc ->  {
                     //TODO clean up this hack
                     mc.className = mc.className +"Path";
-                    (new SourcePrinter()).print(packageRoot, mc.className, mc.code);
+                    (new SourcePrinter()).print(packageRoot, mc.className, mc.code, classNameIn->classNameIn+".java");
                 });
             }
         } catch (Exception ex) {

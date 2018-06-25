@@ -14,10 +14,8 @@ public class ##SimpleName##{
 ##Fields##^
     private ##TypeAsString## ##Name##;^
     ^
-
 ##Fields##^
     public ##TypeAsString## get##PropertyName##() { return this.##Name##;}^^
-
 ##Fields##^
     public ##ParentSimpleName## set##PropertyName##(##TypeAsString## ##Name##) {
             this.##Name##=##Name##;

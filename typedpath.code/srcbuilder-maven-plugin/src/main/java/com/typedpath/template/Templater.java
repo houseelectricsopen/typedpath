@@ -174,7 +174,7 @@ public class Templater {
                  }
                  int embeddedTemplateListJoinerEndIndex = strTemplate.indexOf(EMBEDDED_TEMPLATE_TOKEN_DELIMITER, embeddedTemplateEndIndex+1);
                  if (-1==embeddedTemplateListJoinerEndIndex) {
-                     throw new Exception("unjoined embedded template");
+                     throw new Exception("unjoined embedded template - embdedded template started but not finished");
                  }
                  // extract the template text
                  embeddedTemplateText = strTemplate.substring(embeddedTemplateStartIndex, embeddedTemplateEndIndex);

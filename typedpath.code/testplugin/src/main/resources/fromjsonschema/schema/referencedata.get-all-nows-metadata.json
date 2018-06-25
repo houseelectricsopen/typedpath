@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "nows": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/now"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "nows"
+  ],
+  "definitions": {
+    "now": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "templateName": {
+          "type": "string"
+        },
+        "rank": {
+          "type": "number"
+        },
+        "jurisdiction": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "startDate": {
+          "$ref": "#/definitions/isoDate"
+        },
+        "endDate": {
+          "$ref": "#/definitions/isoDate"
+        },
+        "resultDefinitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/resultDefinition"
+          }
+        },
+        "urgentTimeLimitInMinutes": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "templateName",
+        "rank",
+        "jurisdiction",
+        "resultDefinitions",
+        "startDate",
+        "version"
+      ]
+    },
+    "uuid": {
+      "type": "string",
+      "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+    },
+    "isoDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-[01]\\d-[0-3]\\d$"
+    },
+    "resultDefinition": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/uuid"
+        },
+        "mandatory": {
+          "type": "boolean"
+        },
+        "primary": {
+          "type": "boolean"
+        },
+        "sequence": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "mandatory",
+        "primary",
+        "sequence"
+      ]
+    }
+  }
+}
