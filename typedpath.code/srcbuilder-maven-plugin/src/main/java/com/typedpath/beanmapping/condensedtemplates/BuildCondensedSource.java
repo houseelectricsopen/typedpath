@@ -38,7 +38,7 @@ public class BuildCondensedSource {
                 typedTemplate.values.add(unum.name());
             }
         } else {
-            ImmutableBeanCondensed typedTemplate = new ImmutableBeanCondensed();
+            BeanTemplate typedTemplate = new BeanTemplate();
             templateValues = typedTemplate;
             typedTemplate.setPackageName(newPackageName);
             typedTemplate.setSimpleName(simpleName);

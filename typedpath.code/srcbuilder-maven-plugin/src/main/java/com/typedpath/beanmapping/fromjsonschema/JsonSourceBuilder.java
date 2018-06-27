@@ -2,9 +2,9 @@ package com.typedpath.beanmapping.fromjsonschema;
 
 import com.typedpath.beanmapping.JsonUtil;
 import com.typedpath.beanmapping.SourcePrinter;
+import com.typedpath.beanmapping.condensedtemplates.BeanTemplate;
 import com.typedpath.beanmapping.condensedtemplates.ClassSourceTemplate;
 import com.typedpath.beanmapping.condensedtemplates.FieldSpec;
-import com.typedpath.beanmapping.condensedtemplates.ImmutableBeanCondensed;
 import com.typedpath.beanmapping.condensedtemplates.MappedEnum;
 import com.typedpath.template.Templater;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
@@ -101,8 +101,8 @@ public class JsonSourceBuilder {
         Map<String, FieldSpec>  definitionNameToFieldSpec = new HashMap<>();
         mapJsonSchemaObject(JsonUtil.stringToJson(json), rootName, destinationPackage, classNameMapper, contextToClassTemplateValues, definitionNameToFieldSpec);
         contextToClassTemplateValues.forEach((k,v)->{
-            if (v instanceof ImmutableBeanCondensed) {
-                ImmutableBeanCondensed ib = (ImmutableBeanCondensed) v;
+            if (v instanceof BeanTemplate) {
+                BeanTemplate ib = (BeanTemplate) v;
                 System.out.println(k + " -> " + ib.getSimpleName());
 //                System.out.println("checking fields: " + );
                 ib.getFields().forEach(
@@ -120,7 +120,7 @@ public class JsonSourceBuilder {
                             if (contextToClassTemplateValues.containsKey(f.getType())) {
                                 ClassSourceTemplate template = contextToClassTemplateValues.get(f.getType());
                                  f.setType(template.getSimpleName());
-                                 if (template instanceof ImmutableBeanCondensed) {
+                                 if (template instanceof BeanTemplate) {
                                      f.setComplex();
                                  }
                             } else {
@@ -147,7 +147,7 @@ public class JsonSourceBuilder {
             ScriptObjectMirror objectDef = (ScriptObjectMirror) entry.getValue();
             String type = (String) objectDef.get("type");
             if ("object".equals(type)) {
-                ImmutableBeanCondensed subClass = mapJsonSchemaObject(objectDef, defName, destinationPackage, classNameMapper, contextToClassTemplateValues, definitionNameToFieldSpec);
+                BeanTemplate subClass = mapJsonSchemaObject(objectDef, defName, destinationPackage, classNameMapper, contextToClassTemplateValues, definitionNameToFieldSpec);
             }  else if ("array".equals(type)) {
                 System.out.println("*******processDefinitions array field def: " + defName);
                 FieldSpec fieldSpec = readArrayField(defName, objectDef, destinationPackage, classNameMapper,
@@ -185,7 +185,7 @@ public class JsonSourceBuilder {
 
         }
         else {
-            ImmutableBeanCondensed subClass =  mapJsonSchemaObject(itemDef, pName, destinationPackage, classNameMapper, contextToClassTemplateValues, definitionNameToFieldSpec);
+            BeanTemplate subClass =  mapJsonSchemaObject(itemDef, pName, destinationPackage, classNameMapper, contextToClassTemplateValues, definitionNameToFieldSpec);
             strType = subClass.getSimpleName();
             fieldSpec.setCollectionType(List.class.getName());
             //TODO remove assumption that all collection types are complex
@@ -208,14 +208,14 @@ public class JsonSourceBuilder {
     }
 
     //TODO add field def to fieldSpec mapping
-    public ImmutableBeanCondensed mapJsonSchemaObject(ScriptObjectMirror json, String context, String destinationPackage, Function<String, String> classNameMapper, Map<String, ClassSourceTemplate> contextToClassTemplateValues,
-           Map<String, FieldSpec>  definitionNameToFieldSpec)
+    public BeanTemplate mapJsonSchemaObject(ScriptObjectMirror json, String context, String destinationPackage, Function<String, String> classNameMapper, Map<String, ClassSourceTemplate> contextToClassTemplateValues,
+                                            Map<String, FieldSpec>  definitionNameToFieldSpec)
        throws Exception {
         String className = classNameMapper.apply(context);
-        ImmutableBeanCondensed immutableBeanCondensed = new ImmutableBeanCondensed();
-        immutableBeanCondensed.setSimpleName(className);
-        immutableBeanCondensed.setPackageName(destinationPackage);
-        contextToClassTemplateValues.put(context, immutableBeanCondensed);
+        BeanTemplate beanTemplate = new BeanTemplate();
+        beanTemplate.setSimpleName(className);
+        beanTemplate.setPackageName(destinationPackage);
+        contextToClassTemplateValues.put(context, beanTemplate);
 
         if (json.containsKey("definitions")) {
             Object oDefs = json.get("definitions");
@@ -264,7 +264,7 @@ public class JsonSourceBuilder {
                 fieldSpec.setType(strType);
             }
             else if ("object".equals(type)) {
-                                ImmutableBeanCondensed subClass = mapJsonSchemaObject(propertyDef, pName, destinationPackage, classNameMapper, contextToClassTemplateValues, definitionNameToFieldSpec);
+                                BeanTemplate subClass = mapJsonSchemaObject(propertyDef, pName, destinationPackage, classNameMapper, contextToClassTemplateValues, definitionNameToFieldSpec);
                  String strType = subClass.getSimpleName();
                  fieldSpec.setComplex();
                  fieldSpec.setType(strType);
@@ -280,9 +280,9 @@ public class JsonSourceBuilder {
                 fieldSpec.setType(type);
             }
             fieldSpec.setName(pName);
-            fieldSpec.setParentType(immutableBeanCondensed.getSimpleName());
-            immutableBeanCondensed.getFields().add(fieldSpec);
+            fieldSpec.setParentType(beanTemplate.getSimpleName());
+            beanTemplate.getFields().add(fieldSpec);
         }
-        return immutableBeanCondensed;
+        return beanTemplate;
     }
 }

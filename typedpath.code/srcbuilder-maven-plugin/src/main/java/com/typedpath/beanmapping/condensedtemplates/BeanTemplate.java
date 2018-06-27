@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ImmutableBeanCondensed extends ClassSourceTemplate implements Templater.TemplateValues {
+public class BeanTemplate extends ClassSourceTemplate implements Templater.TemplateValues {
 
    private List<FieldSpec> fields = new ArrayList<>();
    public List<FieldSpec> getFields() {
