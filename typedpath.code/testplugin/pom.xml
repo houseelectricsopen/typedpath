@@ -165,7 +165,41 @@
 					</configuration>
 				</execution>
 
+				<execution>
+					<phase>generate-sources</phase>
+					<id>jsontestfluidsettablelepojosfornowssubscription</id>
+					<goals>
+						<goal>pathsforjsonschema</goal>
+					</goals>
+					<configuration>
+						<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
+						<destinationPackage>uk.gov.moj.cpp.hearing.domain.nows.subscription</destinationPackage>
+						<templateName>FluidSettablePojo.template</templateName>
+						<!-- referencedata.get-all-result-definitions.json-->
+						<!-- missing version property-->
+						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/allsubscriptions.json</jsonSchemaFile>
+						<!--jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/referencedata.result.definition.now.json</jsonSchemaFile-->
+						<rootClassShortName>AllSubscriptions</rootClassShortName>
+					</configuration>
+				</execution>
 
+				<execution>
+					<phase>generate-sources</phase>
+					<id>jsontestfluidsettablelepojosforupdatepleas</id>
+					<goals>
+						<goal>pathsforjsonschema</goal>
+					</goals>
+					<configuration>
+						<destinationSourceRoot>${project.basedir}/target/generated-sources/java</destinationSourceRoot>
+						<destinationPackage>uk.gov.moj.cpp.hearing.domain.updatepleas</destinationPackage>
+						<templateName>FluidSettablePojo.template</templateName>
+						<!-- referencedata.get-all-result-definitions.json-->
+						<!-- missing version property-->
+						<jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/hearing.update-plea.json</jsonSchemaFile>
+						<!--jsonSchemaFile>${project.basedir}/src/main/resources/fromjsonschema/schema/referencedata.result.definition.now.json</jsonSchemaFile-->
+						<rootClassShortName>UpdatePleaCommand</rootClassShortName>
+					</configuration>
+				</execution>
 
 
 			</executions>
